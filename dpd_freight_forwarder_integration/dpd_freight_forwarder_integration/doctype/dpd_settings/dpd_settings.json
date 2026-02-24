@@ -1,0 +1,350 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-02-12 21:30:31.229973",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_kvde",
+  "enabled",
+  "title",
+  "column_break_2bzd",
+  "api_environment",
+  "authentication_details_section",
+  "delis_id",
+  "password",
+  "customer_id",
+  "column_break_egbs",
+  "auth_token",
+  "token_expires_on",
+  "depot",
+  "section_break_firb",
+  "sending_depot",
+  "customer_uid",
+  "column_break_bnei",
+  "default_product",
+  "message_language",
+  "label_print_settings_section",
+  "printer_language",
+  "paper_format",
+  "column_break_lasg",
+  "printer_resolution_dpi",
+  "start_position",
+  "automation_settings_section",
+  "enable_auto_shipment_creation",
+  "auto_create_on_delivery_note_submit",
+  "column_break_bz5b",
+  "enable_predict_service_by_default",
+  "default_notification_channel",
+  "api_endpoints_section",
+  "rest_api_base_url",
+  "soap_api_base_url",
+  "column_break_snfy",
+  "login_service_endpoint",
+  "shipment_service_endpoint",
+  "logging_and_debug_settings_section",
+  "enable_api_logging",
+  "log_request_payload",
+  "column_break_b30z",
+  "log_response_payload",
+  "maximum_log_retention_days",
+  "connections_tab"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_kvde",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "default": "DPD Settings",
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_2bzd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Stage",
+   "fieldname": "api_environment",
+   "fieldtype": "Select",
+   "label": "API Environment",
+   "options": "Stage\nLive",
+   "reqd": 1
+  },
+  {
+   "fieldname": "authentication_details_section",
+   "fieldtype": "Section Break",
+   "label": "Authentication Details"
+  },
+  {
+   "fieldname": "delis_id",
+   "fieldtype": "Data",
+   "label": "DELIS ID",
+   "length": 10,
+   "reqd": 1
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Data",
+   "label": "Password",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_egbs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "auth_token",
+   "fieldtype": "Data",
+   "label": "Auth Token",
+   "length": 64,
+   "read_only": 1
+  },
+  {
+   "fieldname": "token_expires_on",
+   "fieldtype": "Data",
+   "label": "Token Expires On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_firb",
+   "fieldtype": "Section Break",
+   "label": "DPD Account Details"
+  },
+  {
+   "fieldname": "sending_depot",
+   "fieldtype": "Data",
+   "label": "Sending Depot",
+   "length": 4,
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer_uid",
+   "fieldtype": "Data",
+   "label": "Customer UID",
+   "length": 10
+  },
+  {
+   "fieldname": "column_break_bnei",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_product",
+   "fieldtype": "Select",
+   "label": "Default Product",
+   "options": "B2B\nB2BI\nB2BP\nPM2\nB2C\nAM1\nAM2\nIE2\nHOME\nPSD\nPL\nPBOX",
+   "reqd": 1
+  },
+  {
+   "default": "en_CH",
+   "fieldname": "message_language",
+   "fieldtype": "Select",
+   "label": "Message Language",
+   "options": "de_CH\nfr_CH\nit_CH\nen_CH\nen_EN",
+   "reqd": 1
+  },
+  {
+   "fieldname": "label_print_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Label Print Settings"
+  },
+  {
+   "default": "PDF",
+   "fieldname": "printer_language",
+   "fieldtype": "Select",
+   "label": "Printer Language",
+   "options": "PDF\nZPL",
+   "reqd": 1
+  },
+  {
+   "default": "A6",
+   "fieldname": "paper_format",
+   "fieldtype": "Select",
+   "label": "Paper Format",
+   "options": "A6\nA4",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_lasg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "203",
+   "depends_on": "eval:doc.printer_language=='ZPL'",
+   "fieldname": "printer_resolution_dpi",
+   "fieldtype": "Float",
+   "label": "Printer Resolution (DPI)",
+   "precision": "0"
+  },
+  {
+   "depends_on": "eval:doc.paper_format=='A4'",
+   "fieldname": "start_position",
+   "fieldtype": "Select",
+   "label": "Start Position",
+   "options": "UPPER LEFT\nUPPER RIGHT\nLOWER LEFT\nLOWER RIGHT"
+  },
+  {
+   "fieldname": "automation_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Automation Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_auto_shipment_creation",
+   "fieldtype": "Check",
+   "label": "Enable Auto Shipment Creation"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.enable_auto_shipment_creation==1",
+   "fieldname": "auto_create_on_delivery_note_submit",
+   "fieldtype": "Check",
+   "label": "Auto Create on Delivery Note Submit"
+  },
+  {
+   "fieldname": "column_break_bz5b",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_predict_service_by_default",
+   "fieldtype": "Check",
+   "label": "Enable Predict Service by Default"
+  },
+  {
+   "depends_on": "eval:doc.enable_predict_service_by_default==1;",
+   "fieldname": "default_notification_channel",
+   "fieldtype": "Select",
+   "label": "Default Notification Channel",
+   "options": "Email\nSMS"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "api_endpoints_section",
+   "fieldtype": "Section Break",
+   "label": "API Endpoints"
+  },
+  {
+   "fieldname": "rest_api_base_url",
+   "fieldtype": "Data",
+   "label": "REST API Base URL"
+  },
+  {
+   "fieldname": "soap_api_base_url",
+   "fieldtype": "Data",
+   "label": "SOAP API Base URL",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_snfy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "login_service_endpoint",
+   "fieldtype": "Data",
+   "label": "Login Service Endpoint",
+   "read_only": 1
+  },
+  {
+   "fieldname": "shipment_service_endpoint",
+   "fieldtype": "Data",
+   "label": "Shipment Service Endpoint",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "logging_and_debug_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Logging and Debug Settings"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_api_logging",
+   "fieldtype": "Check",
+   "label": "Enable API Logging"
+  },
+  {
+   "default": "1",
+   "depends_on": "eval:doc.enable_logging==1",
+   "fieldname": "log_request_payload",
+   "fieldtype": "Check",
+   "label": "Log Request Payload"
+  },
+  {
+   "fieldname": "column_break_b30z",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "depends_on": "eval:doc.enable_logging==1",
+   "fieldname": "log_response_payload",
+   "fieldtype": "Check",
+   "label": "Log Response Payload"
+  },
+  {
+   "default": "30",
+   "depends_on": "eval:doc.enable_logging==1",
+   "fieldname": "maximum_log_retention_days",
+   "fieldtype": "Int",
+   "label": "Maximum Log Retention (Days)"
+  },
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Data",
+   "label": "Customer Id",
+   "read_only": 1
+  },
+  {
+   "fieldname": "depot",
+   "fieldtype": "Data",
+   "label": "Depot",
+   "read_only": 1
+  },
+  {
+   "fieldname": "connections_tab",
+   "fieldtype": "Tab Break",
+   "label": "Connections"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [
+  {
+   "link_doctype": "DPD API Log",
+   "link_fieldname": "reference_record"
+  }
+ ],
+ "modified": "2026-02-20 15:38:41.388830",
+ "modified_by": "Administrator",
+ "module": "DPD Freight Forwarder Integration",
+ "name": "DPD Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

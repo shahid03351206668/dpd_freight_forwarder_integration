@@ -1,0 +1,598 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-02-18 19:59:26.534156",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "shipment_information_section",
+  "customer",
+  "shipment_date",
+  "naming_series",
+  "delivery_note",
+  "sales_order",
+  "column_break_h2mo",
+  "customer_name",
+  "status",
+  "dpd_shipment_number",
+  "identification_number",
+  "sending_depot",
+  "general_shipment_data_section",
+  "product",
+  "total_weight_in_grams",
+  "column_break_ripl",
+  "total_volume_in_cubic_centimeter",
+  "reference_number",
+  "sender_information_section",
+  "sender_name_1",
+  "sender_name_2",
+  "sender_street",
+  "sender_house_no",
+  "sender_city",
+  "sender_postal_code",
+  "column_break_pwtp",
+  "sender_country",
+  "sender_contact",
+  "sender_phone",
+  "sender_email",
+  "sender_customer_number",
+  "recipient_information_section",
+  "recipient_name_1",
+  "recipient_name_2",
+  "recipient_street",
+  "recipient_house_no",
+  "recipient_city",
+  "recipient_postal_code",
+  "column_break_vytu",
+  "recipient_country",
+  "recipient_contact",
+  "recipient_phone",
+  "recipient_email",
+  "recipient_customer_number",
+  "parcels_section",
+  "parcels",
+  "services_and_options_section",
+  "order_type",
+  "works_delivery",
+  "predict_notification",
+  "column_break_n9wo",
+  "predict_channel",
+  "predict_value",
+  "parcel_shop_delivery_section",
+  "parcel_shop_delivery",
+  "parcel_shop_id",
+  "column_break_thfl",
+  "parcel_shop_notification_channel",
+  "parcel_shop_notification_value",
+  "pickup_information_section",
+  "pickup_required",
+  "pickup_date",
+  "pickup_to_time",
+  "column_break_o1ry",
+  "extra_pickup",
+  "pickup_from_time",
+  "label_options_section",
+  "printer_language",
+  "paper_format",
+  "start_position",
+  "column_break_df4u",
+  "label_generated",
+  "label_pdf_data",
+  "label_url",
+  "tracking_information_section",
+  "mpsid",
+  "tracking_url",
+  "column_break_gtw4",
+  "estimated_delivery_date",
+  "actual_delivery_date",
+  "amended_from",
+  "connections_tab"
+ ],
+ "fields": [
+  {
+   "fieldname": "shipment_information_section",
+   "fieldtype": "Section Break",
+   "label": "Shipment Information"
+  },
+  {
+   "default": "Today",
+   "fieldname": "shipment_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Shipment Date",
+   "reqd": 1
+  },
+  {
+   "default": "DS-",
+   "fieldname": "naming_series",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Naming Series",
+   "read_only": 1
+  },
+  {
+   "fieldname": "delivery_note",
+   "fieldtype": "Link",
+   "label": "Delivery Note",
+   "options": "Delivery Note"
+  },
+  {
+   "fieldname": "sales_order",
+   "fieldtype": "Link",
+   "label": "Sales Order",
+   "options": "Sales Order"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nReady to Ship\nLabel Generated",
+   "reqd": 1
+  },
+  {
+   "fieldname": "dpd_shipment_number",
+   "fieldtype": "Data",
+   "label": "DPD Shipment Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "identification_number",
+   "fieldtype": "Data",
+   "label": "Identification Number",
+   "length": 999,
+   "read_only": 1
+  },
+  {
+   "fieldname": "sending_depot",
+   "fieldtype": "Data",
+   "label": "Sending Depot",
+   "read_only": 1
+  },
+  {
+   "fieldname": "general_shipment_data_section",
+   "fieldtype": "Section Break",
+   "label": "General Shipment Data"
+  },
+  {
+   "fieldname": "product",
+   "fieldtype": "Select",
+   "label": "Product",
+   "options": "B2B\nB2BI\nB2BP\nPM2\nB2C\nAM1\nAM2\nIE2\nHOME\nPSD\nPL\nPBOX"
+  },
+  {
+   "fieldname": "total_weight_in_grams",
+   "fieldtype": "Int",
+   "label": "Total Weight in Grams"
+  },
+  {
+   "fieldname": "total_volume_in_cubic_centimeter",
+   "fieldtype": "Int",
+   "label": "Total Volume in Cubic Centimeter"
+  },
+  {
+   "fieldname": "reference_number",
+   "fieldtype": "Data",
+   "label": "Reference Number"
+  },
+  {
+   "fieldname": "sender_information_section",
+   "fieldtype": "Section Break",
+   "label": "Sender Information"
+  },
+  {
+   "fieldname": "sender_name_1",
+   "fieldtype": "Data",
+   "label": "Name 1",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sender_name_2",
+   "fieldtype": "Data",
+   "label": "Name 2"
+  },
+  {
+   "fieldname": "sender_street",
+   "fieldtype": "Data",
+   "label": "Street",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sender_house_no",
+   "fieldtype": "Data",
+   "label": "House No.",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sender_city",
+   "fieldtype": "Data",
+   "label": "City",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sender_postal_code",
+   "fieldtype": "Data",
+   "label": "Postal Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sender_country",
+   "fieldtype": "Data",
+   "label": "Country",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sender_contact",
+   "fieldtype": "Phone",
+   "label": "Contact"
+  },
+  {
+   "fieldname": "sender_phone",
+   "fieldtype": "Phone",
+   "label": "Phone"
+  },
+  {
+   "fieldname": "sender_email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "sender_customer_number",
+   "fieldtype": "Data",
+   "label": "Customer Number"
+  },
+  {
+   "fieldname": "recipient_information_section",
+   "fieldtype": "Section Break",
+   "label": "Recipient Information"
+  },
+  {
+   "fieldname": "recipient_name_1",
+   "fieldtype": "Data",
+   "label": "Name 1",
+   "reqd": 1
+  },
+  {
+   "fieldname": "recipient_name_2",
+   "fieldtype": "Data",
+   "label": "Name 2"
+  },
+  {
+   "fieldname": "recipient_street",
+   "fieldtype": "Data",
+   "label": "Street",
+   "reqd": 1
+  },
+  {
+   "fieldname": "recipient_house_no",
+   "fieldtype": "Data",
+   "label": "House No.",
+   "reqd": 1
+  },
+  {
+   "fieldname": "recipient_city",
+   "fieldtype": "Data",
+   "label": "City",
+   "reqd": 1
+  },
+  {
+   "fieldname": "recipient_postal_code",
+   "fieldtype": "Data",
+   "label": "Postal Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "recipient_country",
+   "fieldtype": "Data",
+   "label": "Country",
+   "reqd": 1
+  },
+  {
+   "fieldname": "recipient_contact",
+   "fieldtype": "Phone",
+   "label": "Contact"
+  },
+  {
+   "fieldname": "recipient_phone",
+   "fieldtype": "Phone",
+   "label": "Phone"
+  },
+  {
+   "fieldname": "recipient_email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "recipient_customer_number",
+   "fieldtype": "Data",
+   "label": "Customer Number"
+  },
+  {
+   "fieldname": "parcels_section",
+   "fieldtype": "Section Break",
+   "label": "Parcels"
+  },
+  {
+   "fieldname": "parcels",
+   "fieldtype": "Table",
+   "label": "Parcels",
+   "options": "DPD Shipment Parcels"
+  },
+  {
+   "fieldname": "services_and_options_section",
+   "fieldtype": "Section Break",
+   "label": "Services And Options"
+  },
+  {
+   "fieldname": "order_type",
+   "fieldtype": "Select",
+   "label": "Order Type",
+   "options": "consignment\ncollection request\npickup info"
+  },
+  {
+   "default": "0",
+   "fieldname": "works_delivery",
+   "fieldtype": "Check",
+   "label": "Works Delivery"
+  },
+  {
+   "default": "0",
+   "fieldname": "predict_notification",
+   "fieldtype": "Check",
+   "label": "Predict Notification"
+  },
+  {
+   "fieldname": "predict_channel",
+   "fieldtype": "Select",
+   "label": "Predict Channel",
+   "options": "Email\nSMS"
+  },
+  {
+   "fieldname": "predict_value",
+   "fieldtype": "Data",
+   "label": "Predict Value"
+  },
+  {
+   "depends_on": "eval:doc.product=='PSD';",
+   "fieldname": "parcel_shop_delivery_section",
+   "fieldtype": "Section Break",
+   "label": "Parcel Shop Delivery"
+  },
+  {
+   "default": "0",
+   "fieldname": "parcel_shop_delivery",
+   "fieldtype": "Check",
+   "label": "Parcel Shop Delivery"
+  },
+  {
+   "fieldname": "parcel_shop_id",
+   "fieldtype": "Data",
+   "label": "Parcel Shop Id"
+  },
+  {
+   "fieldname": "parcel_shop_notification_channel",
+   "fieldtype": "Select",
+   "label": "Parcel Shop Notification Channel",
+   "options": "Email\nSMS"
+  },
+  {
+   "fieldname": "parcel_shop_notification_value",
+   "fieldtype": "Data",
+   "label": "Parcel Shop Notification Value"
+  },
+  {
+   "fieldname": "pickup_information_section",
+   "fieldtype": "Section Break",
+   "label": "Pickup Information"
+  },
+  {
+   "default": "0",
+   "fieldname": "pickup_required",
+   "fieldtype": "Check",
+   "label": "Pickup Required"
+  },
+  {
+   "depends_on": "eval:doc.pickup_required;",
+   "fieldname": "pickup_date",
+   "fieldtype": "Date",
+   "label": "Pickup Date",
+   "mandatory_depends_on": "eval:doc.pickup_required;"
+  },
+  {
+   "depends_on": "eval:doc.pickup_required;",
+   "fieldname": "pickup_from_time",
+   "fieldtype": "Time",
+   "label": "Pickup From Time",
+   "mandatory_depends_on": "eval:doc.pickup_required;"
+  },
+  {
+   "depends_on": "eval:doc.pickup_required;",
+   "fieldname": "pickup_to_time",
+   "fieldtype": "Time",
+   "label": "Pickup To Time",
+   "mandatory_depends_on": "eval:doc.pickup_required;"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.pickup_required;",
+   "fieldname": "extra_pickup",
+   "fieldtype": "Check",
+   "label": "Extra Pickup"
+  },
+  {
+   "fieldname": "column_break_o1ry",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "label_options_section",
+   "fieldtype": "Section Break",
+   "label": "Label Options"
+  },
+  {
+   "default": "PDF",
+   "fieldname": "printer_language",
+   "fieldtype": "Select",
+   "label": "Printer Language",
+   "options": "PDF\nZPL",
+   "reqd": 1
+  },
+  {
+   "default": "A6",
+   "fieldname": "paper_format",
+   "fieldtype": "Select",
+   "label": "Paper Format",
+   "options": "A4\nA6",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.paper_format == \"A4\";",
+   "fieldname": "start_position",
+   "fieldtype": "Select",
+   "label": "Start Position",
+   "options": "\nUPPER LEFT\nUPPER RIGHT\nLOWER LEFT\nLOWER RIGHT"
+  },
+  {
+   "fieldname": "column_break_df4u",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "label_generated",
+   "fieldtype": "Check",
+   "label": "Label Generated",
+   "read_only": 1
+  },
+  {
+   "fieldname": "label_pdf_data",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Label Pdf Data",
+   "read_only": 1
+  },
+  {
+   "fieldname": "label_url",
+   "fieldtype": "Data",
+   "label": "Label Url",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tracking_information_section",
+   "fieldtype": "Section Break",
+   "label": "Tracking Information"
+  },
+  {
+   "fieldname": "tracking_url",
+   "fieldtype": "Data",
+   "label": "Tracking Url",
+   "read_only": 1
+  },
+  {
+   "fieldname": "estimated_delivery_date",
+   "fieldtype": "Date",
+   "label": "Estimated Delivery Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "actual_delivery_date",
+   "fieldtype": "Datetime",
+   "label": "Actual Delivery Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_gtw4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_h2mo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ripl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_pwtp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_vytu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_n9wo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_thfl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "DPD Shipment",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "connections_tab",
+   "fieldtype": "Tab Break",
+   "label": "Connections"
+  },
+  {
+   "fieldname": "mpsid",
+   "fieldtype": "Data",
+   "label": "MPSId",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "link_doctype": "DPD API Log",
+   "link_fieldname": "reference_record"
+  }
+ ],
+ "modified": "2026-02-23 14:33:39.016685",
+ "modified_by": "Administrator",
+ "module": "DPD Freight Forwarder Integration",
+ "name": "DPD Shipment",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

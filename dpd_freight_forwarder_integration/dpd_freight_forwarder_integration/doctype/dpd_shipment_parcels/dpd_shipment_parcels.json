@@ -1,0 +1,139 @@
+{
+ "actions": [],
+ "creation": "2026-02-18 20:49:00.283340",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_rpv4",
+  "parcel_label_number",
+  "weight_in_grams",
+  "volume_in_cubic_centimeter",
+  "column_break_kk9x",
+  "customer_reference_1",
+  "customer_reference_2",
+  "content",
+  "cod_section_section",
+  "cod_required",
+  "cod_amount",
+  "cod_currency",
+  "cod_purpose",
+  "column_break_ez60",
+  "cod_bank_account",
+  "dpd_reference",
+  "parcel_generated"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_rpv4",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "parcel_label_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Parcel Label Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "weight_in_grams",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Weight in Grams"
+  },
+  {
+   "fieldname": "volume_in_cubic_centimeter",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Volume in Cubic Centimeter"
+  },
+  {
+   "fieldname": "customer_reference_1",
+   "fieldtype": "Data",
+   "label": "Customer Reference 1"
+  },
+  {
+   "fieldname": "customer_reference_2",
+   "fieldtype": "Data",
+   "label": "Customer Reference 2"
+  },
+  {
+   "fieldname": "content",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Content"
+  },
+  {
+   "fieldname": "cod_section_section",
+   "fieldtype": "Section Break",
+   "label": "COD Section"
+  },
+  {
+   "default": "0",
+   "fieldname": "cod_required",
+   "fieldtype": "Check",
+   "label": "COD Required"
+  },
+  {
+   "default": "0",
+   "fieldname": "cod_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "COD Amount",
+   "mandatory_depends_on": "eval:doc.cod_required;"
+  },
+  {
+   "fieldname": "cod_currency",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "COD Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "cod_purpose",
+   "fieldtype": "Data",
+   "label": "COD Purpose"
+  },
+  {
+   "fieldname": "cod_bank_account",
+   "fieldtype": "Data",
+   "label": "COD Bank Account"
+  },
+  {
+   "fieldname": "dpd_reference",
+   "fieldtype": "Data",
+   "label": "DPD Reference",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "parcel_generated",
+   "fieldtype": "Check",
+   "label": "Parcel Generated",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_kk9x",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ez60",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-02-19 14:15:11.104671",
+ "modified_by": "Administrator",
+ "module": "DPD Freight Forwarder Integration",
+ "name": "DPD Shipment Parcels",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

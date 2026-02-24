@@ -1,0 +1,122 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-02-12 22:18:20.044281",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_cpbt",
+  "method",
+  "status",
+  "request_payload",
+  "error_message",
+  "column_break_pfiz",
+  "response_payload",
+  "timestamp",
+  "naming_series",
+  "reference_document",
+  "reference_record",
+  "dpd_settings"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_cpbt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "method",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Method",
+   "reqd": 1
+  },
+  {
+   "default": "Success",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Success\nFailed"
+  },
+  {
+   "fieldname": "request_payload",
+   "fieldtype": "JSON",
+   "label": "Request PayLoad"
+  },
+  {
+   "fieldname": "response_payload",
+   "fieldtype": "JSON",
+   "label": "Response PayLoad"
+  },
+  {
+   "fieldname": "error_message",
+   "fieldtype": "Small Text",
+   "label": "Error Message"
+  },
+  {
+   "fieldname": "column_break_pfiz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "DAL-",
+   "fieldname": "naming_series",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Naming Series",
+   "read_only": 1
+  },
+  {
+   "fieldname": "timestamp",
+   "fieldtype": "Data",
+   "label": "TimeStamp"
+  },
+  {
+   "fieldname": "reference_document",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Reference Document",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "reference_record",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference Record",
+   "options": "reference_document"
+  },
+  {
+   "default": "0",
+   "fieldname": "dpd_settings",
+   "fieldtype": "Check",
+   "label": "DPD Settings",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "in_create": 1,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-02-24 14:40:57.917184",
+ "modified_by": "Administrator",
+ "module": "DPD Freight Forwarder Integration",
+ "name": "DPD API Log",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
