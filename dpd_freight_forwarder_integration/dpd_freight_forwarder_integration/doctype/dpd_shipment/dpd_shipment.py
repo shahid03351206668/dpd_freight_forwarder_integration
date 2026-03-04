@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 from frappe.utils import flt, cstr
+from frappe.model.mapper import get_mapped_doc
 from frappe.utils.file_manager import save_file
 from dpd_freight_forwarder_integration.dpd_freight_forwarder_integration.doctype.dpd_settings.dpd_settings import make_call, create_api_log
 from datetime import datetime, timedelta
@@ -171,6 +172,12 @@ def post_shipment_request(self):
 								self.label_generated = 1
 								self.status = 'Label Generated'
 								self.label_pdf_data = pdf_base64
+							if order_result.get("shipmentResponses"):
+								parcel_info = order_result.get("shipmentResponses")[0].get("parcelInformation") or []
+								if len(parcel_info) == len(self.parcels):
+									for idx, row in enumerate(self.parcels):
+										row.parcel_label_number = parcel_info[idx].get("parcelLabelNumber")
+
 				else:
 					response_log_filters['response_status'] = "Failed"
 					response_log_filters['response_json'] = response_json
@@ -180,4 +187,35 @@ def post_shipment_request(self):
 					create_api_log(response_log_filters)
 					frappe.throw("Failed to Post Shipment Request")
 
+@frappe.whitelist()
+def create_shipment_from_delivery_note(source_name, target_doc=None):
+	def set_missing_values(source, target):
+		customer_address_details = {}
+		company_address_details = {}
+		if source.customer_address:
+			customer_address_details = frappe.db.get_value("Address", source.customer_address, ["city", "country", "pincode"], as_dict=1) or {}
+		if source.company_address:
+			company_address_details = frappe.db.get_value("Address", source.company_address, ["city", "country", "pincode"], as_dict=1) or {}
+		target.customer = source.customer
+		target.product = 'PBOX'
+		target.sender_name_1 = source.company
+		target.sender_city = company_address_details.get("city")
+		target.sender_country = company_address_details.get("country")
+		target.sender_postal_code = company_address_details.get("pincode")
+		target.recipient_name_1 = target.customer_name
+		target.recipient_city = customer_address_details.get("city")
+		target.recipient_country = customer_address_details.get("country")
+		target.recipient_postal_code = customer_address_details.get("pincode")
 
+	doc = get_mapped_doc(
+		"Delivery Note",
+		source_name,
+		{
+			"Delivery Note":{
+				"doctype": "DPD Shipment"
+			}
+		},
+		target_doc,
+		set_missing_values,
+	)
+	return doc
