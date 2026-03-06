@@ -216,14 +216,14 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 		target.sender_city = company_address_details.get("city")
 		target.sender_country = company_address_details.get("country")
 		target.sender_postal_code = company_address_details.get("pincode")
-		target.sender_street = company_address_details.get("pincode")
-		target.sender_house_no = company_address_details.get("pincode")
+		target.sender_street = company_address_details.get("custom_street")
+		target.sender_house_no = company_address_details.get("custom_house_no")
 		target.recipient_name_1 = target.customer_name
 		target.recipient_city = customer_address_details.get("city")
 		target.recipient_country = customer_address_details.get("country")
 		target.recipient_postal_code = customer_address_details.get("pincode")
-		target.recipient_street = customer_address_details.get("pincode")
-		target.recipient_house_no = customer_address_details.get("pincode")
+		target.recipient_street = customer_address_details.get("custom_street")
+		target.recipient_house_no = customer_address_details.get("custom_house_no")
 
 	doc = get_mapped_doc(
 		"Delivery Note",
