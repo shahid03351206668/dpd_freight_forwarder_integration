@@ -193,19 +193,37 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 		customer_address_details = {}
 		company_address_details = {}
 		if source.customer_address:
-			customer_address_details = frappe.db.get_value("Address", source.customer_address, ["city", "country", "pincode"], as_dict=1) or {}
-		if source.company_address:
-			company_address_details = frappe.db.get_value("Address", source.company_address, ["city", "country", "pincode"], as_dict=1) or {}
+			customer_address_details = frappe.db.get_value("Address", source.customer_address, ["city", "country", "pincode", "custom_street", "custom_house_no"], as_dict=1) or {}
+		if source.company:
+			address_conditions = ["AND p.address_type = 'Plant' AND p.is_shipping_address = 1 AND p.is_your_company_address = 1", "AND p.address_type = 'Billing' AND p.is_primary_address = 1 AND p.is_your_company_address = 1"]
+			base_query = """
+				SELECT p.city, p.country, p.pincode, p.custom_street, p.custom_house_no
+				FROM `tabAddress` p
+				INNER JOIN `tabDynamic Link` c ON p.name = c.parent
+				WHERE c.link_doctype = 'Company'
+				AND c.link_name = %s
+				{conditions}
+				LIMIT 1
+			"""
+			for conditions in address_conditions:
+				result = frappe.db.sql(base_query.format(conditions=conditions), values=(source.company,), as_dict=1)
+				if result:
+					company_address_details = result[0]
+					break
 		target.customer = source.customer
 		target.product = 'PBOX'
 		target.sender_name_1 = source.company
 		target.sender_city = company_address_details.get("city")
 		target.sender_country = company_address_details.get("country")
 		target.sender_postal_code = company_address_details.get("pincode")
+		target.sender_street = company_address_details.get("pincode")
+		target.sender_house_no = company_address_details.get("pincode")
 		target.recipient_name_1 = target.customer_name
 		target.recipient_city = customer_address_details.get("city")
 		target.recipient_country = customer_address_details.get("country")
 		target.recipient_postal_code = customer_address_details.get("pincode")
+		target.recipient_street = customer_address_details.get("pincode")
+		target.recipient_house_no = customer_address_details.get("pincode")
 
 	doc = get_mapped_doc(
 		"Delivery Note",
