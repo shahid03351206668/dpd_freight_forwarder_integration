@@ -52,8 +52,8 @@ def validate_addresses(self):
 		frappe.throw("Recipient Name Length Cannot Exceed 35 Characters")
 	if not self.sender_country:
 		frappe.throw("Sender Country is Required")
-	if (len(cstr(self.sender_country)) != 2) or (len(cstr(self.recipient_country)) != 2):
-		frappe.throw("Country Must be 2-Char ISO Code (e.g., CH)")
+	# if (len(cstr(self.sender_country)) != 2) or (len(cstr(self.recipient_country)) != 2):
+	# 	frappe.throw("Country Must be 2-Char ISO Code (e.g., CH)")
 	
 
 def validate_parcels_quantity(self):
@@ -101,18 +101,26 @@ def post_shipment_request(self):
 			if self.product:
 				shipment_data["product"] = self.product
 			if self.sender_name_1 and self.sender_street and self.sender_country and self.sender_postal_code and self.sender_city:
+				country_code = frappe.db.get_value("Country", self.sender_country, "code") or False
+				if not country_code:
+					frappe.throw("Select Country Code in Sender Country")
+				country_code = cstr(country_code).upper()
 				shipment_data["sender"] = {
 					"name1": self.sender_name_1,
 					"street": self.sender_street,
-					"country": self.sender_country,
+					"country": country_code,
 					"zipCode": self.sender_postal_code,
 					"city": self.sender_city
 				}
 			if self.recipient_name_1 and self.recipient_street and self.recipient_country and self.recipient_postal_code and self.recipient_city:
+				country_code = frappe.db.get_value("Country", self.recipient_country, "code") or False
+				if not country_code:
+					frappe.throw("Select Country Code in Recipient Country")
+				country_code = cstr(country_code).upper()
 				shipment_data["recipient"] = {
 					"name1": self.recipient_name_1,
 					"street": self.recipient_street,
-					"country": self.recipient_country,
+					"country": country_code,
 					"zipCode": self.recipient_postal_code,
 					"city": self.recipient_city
 				}
@@ -193,6 +201,10 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 		company_address_details = {}
 		if source.customer_address:
 			customer_address_details = frappe.db.get_value("Address", source.customer_address, ["city", "country", "pincode", "address_line1", "address_line2"], as_dict=1) or {}
+			if customer_address_details.get("country"):
+				country_code = frappe.db.get_value("Country", customer_address_details.get("country"), "code") or None
+				if country_code:
+					customer_address_details['country_code'] = cstr(country_code).upper()
 			# if customer_address_details.get("address_line1"):
 			# 	customer_address_line1 = customer_address_details.get("address_line1").split(' ')
 			# 	customer_street = None
@@ -222,6 +234,10 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 				result = frappe.db.sql(base_query.format(conditions=conditions), values=(source.set_warehouse,), as_dict=1)
 				if result:
 					company_address_details = result[0]
+					if company_address_details.get("country"):
+						country_code = frappe.db.get_value("Country", company_address_details.get("country"), "code") or None
+						if country_code:
+							customer_address_details['country_code'] = cstr(country_code).upper()
 					# if company_address_details.get("address_line1"):
 					# 	address_line1 = cstr(company_address_details.get("address_line1")).split(' ')
 					# 	if address_line1:
