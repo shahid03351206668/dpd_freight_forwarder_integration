@@ -27,6 +27,7 @@
   "sender_name_1",
   "sender_name_2",
   "sender_street",
+  "sender_street_2",
   "sender_house_no",
   "sender_city",
   "sender_postal_code",
@@ -40,6 +41,7 @@
   "recipient_name_1",
   "recipient_name_2",
   "recipient_street",
+  "recipient_street_2",
   "recipient_house_no",
   "recipient_city",
   "recipient_postal_code",
@@ -206,8 +208,7 @@
   {
    "fieldname": "sender_house_no",
    "fieldtype": "Data",
-   "label": "House No.",
-   "reqd": 1
+   "label": "House No."
   },
   {
    "fieldname": "sender_city",
@@ -272,8 +273,7 @@
   {
    "fieldname": "recipient_house_no",
    "fieldtype": "Data",
-   "label": "House No.",
-   "reqd": 1
+   "label": "House No."
   },
   {
    "fieldname": "recipient_city",
@@ -559,6 +559,16 @@
    "fieldtype": "Data",
    "label": "MPSId",
    "read_only": 1
+  },
+  {
+   "fieldname": "sender_street_2",
+   "fieldtype": "Data",
+   "label": "Street 2"
+  },
+  {
+   "fieldname": "recipient_street_2",
+   "fieldtype": "Data",
+   "label": "Street 2"
   }
  ],
  "grid_page_length": 50,
@@ -570,7 +580,7 @@
    "link_fieldname": "reference_record"
   }
  ],
- "modified": "2026-02-23 14:33:39.016685",
+ "modified": "2026-03-12 14:27:24.261679",
  "modified_by": "Administrator",
  "module": "DPD Freight Forwarder Integration",
  "name": "DPD Shipment",

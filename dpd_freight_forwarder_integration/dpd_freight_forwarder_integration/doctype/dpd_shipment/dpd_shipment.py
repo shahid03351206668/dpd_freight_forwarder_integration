@@ -33,8 +33,8 @@ def validate_mandatory(self):
 		frappe.throw("Identification Number Length Cannot Exceed 999 Characters")
 
 def validate_product_requirements(self):
-	if self.product in ["B2C", "B2BP", "HOME", "PBOX"] and not self.predict_notification:
-		frappe.throw(f"{self.product} Requires Predict")
+	# if self.product in ["B2C", "B2BP", "HOME", "PBOX"] and not self.predict_notification:
+	# 	frappe.throw(f"{self.product} Requires Predict")
 	
 	if self.product in ["B2BI", "B2B"] and self.recipient_country != 'CH' and not self.recipient_email:
 		frappe.throw("Email Required for International B2B Shipments")
@@ -190,64 +190,66 @@ def post_shipment_request(self):
 @frappe.whitelist()
 def create_shipment_from_delivery_note(source_name, target_doc=None):
 	def set_missing_values(source, target):
-		customer_address_details = {}
 		company_address_details = {}
 		if source.customer_address:
-			customer_address_details = frappe.db.get_value("Address", source.customer_address, ["city", "country", "pincode", "address_line1"], as_dict=1) or {}
-			if customer_address_details.get("address_line1"):
-				customer_address_line1 = customer_address_details.get("address_line1").split(' ')
-				customer_street = None
-				customer_house_no = None
-				if len(customer_address_line1) == 1:
-					customer_street = customer_address_line1[0]
-				elif len(customer_address_line1) > 1:
-					customer_street = customer_address_line1[0]
-					customer_house_no = customer_address_line1[1]
-				customer_address_details['street'] = customer_street
-				customer_address_details['house_no'] = customer_house_no
+			customer_address_details = frappe.db.get_value("Address", source.customer_address, ["city", "country", "pincode", "address_line1", "address_line2"], as_dict=1) or {}
+			# if customer_address_details.get("address_line1"):
+			# 	customer_address_line1 = customer_address_details.get("address_line1").split(' ')
+			# 	customer_street = None
+			# 	customer_house_no = None
+			# 	if len(customer_address_line1) == 1:
+			# 		customer_street = customer_address_line1[0]
+			# 	elif len(customer_address_line1) > 1:
+			# 		customer_street = customer_address_line1[0]
+			# 		customer_house_no = customer_address_line1[1]
+			# 	customer_address_details['street'] = customer_street
+			# 	customer_address_details['house_no'] = customer_house_no	
+		if source.customer:
+			customer_address_details['sender_name_2'] = frappe.db.get_value("Customer", source.customer, "custom_customer_additional_designation")
 		if source.company:
-			address_conditions = ["AND p.address_type = 'Plant' AND p.is_shipping_address = 1 AND p.is_your_company_address = 1", "AND p.address_type = 'Billing' AND p.is_primary_address = 1 AND p.is_your_company_address = 1"]
+			# "AND p.address_type = 'Plant' AND p.is_shipping_address = 1 AND p.is_your_company_address = 1", 
+			address_conditions = ["AND p.address_type = 'Billing' AND p.is_shipping_address = 1"]
 			base_query = """
-				SELECT p.city, p.country, p.pincode, p.address_line1
+				SELECT p.city, p.country, p.pincode, p.address_line1, p.address_line2
 				FROM `tabAddress` p
 				INNER JOIN `tabDynamic Link` c ON p.name = c.parent
-				WHERE c.link_doctype = 'Company'
+				WHERE c.link_doctype = 'Warehouse'
 				AND c.link_name = %s
 				{conditions}
 				LIMIT 1
 			"""
 			for conditions in address_conditions:
-				result = frappe.db.sql(base_query.format(conditions=conditions), values=(source.company,), as_dict=1)
+				result = frappe.db.sql(base_query.format(conditions=conditions), values=(source.set_warehouse,), as_dict=1)
 				if result:
 					company_address_details = result[0]
-					if company_address_details.get("address_line1"):
-						address_line1 = cstr(company_address_details.get("address_line1")).split(' ')
-						if address_line1:
-							company_street = None
-							company_house_no = None
-							if len(address_line1) == 1:
-								company_street = address_line1[0]
-							elif len(address_line1) > 1:
-								company_street = address_line1[0]
-								company_house_no = address_line1[1]
-							company_address_details['street'] = company_street
-							company_address_details['house_no'] = company_house_no
-							break
-		# frappe.msgprint(cstr(company_address_details))
+					# if company_address_details.get("address_line1"):
+					# 	address_line1 = cstr(company_address_details.get("address_line1")).split(' ')
+					# 	if address_line1:
+					# 		company_street = None
+					# 		company_house_no = None
+					# 		if len(address_line1) == 1:
+					# 			company_street = address_line1[0]
+					# 		elif len(address_line1) > 1:
+					# 			company_street = address_line1[0]
+					# 			company_house_no = address_line1[1]
+					# 		company_address_details['street'] = company_street
+					# 		company_address_details['house_no'] = company_house_no
+					break
 		target.customer = source.customer
 		target.product = 'PBOX'
 		target.sender_name_1 = source.company
+		target.sender_name_2 = customer_address_details.get("sender_name_2")
 		target.sender_city = company_address_details.get("city")
 		target.sender_country = company_address_details.get("country")
 		target.sender_postal_code = company_address_details.get("pincode")
-		target.sender_street = company_address_details.get("street")
-		target.sender_house_no = company_address_details.get("house_no")
+		target.sender_street = company_address_details.get("address_line1")
+		target.sender_street_2 = company_address_details.get("address_line2")
 		target.recipient_name_1 = target.customer_name
 		target.recipient_city = customer_address_details.get("city")
 		target.recipient_country = customer_address_details.get("country")
 		target.recipient_postal_code = customer_address_details.get("pincode")
-		target.recipient_street = customer_address_details.get("street")
-		target.recipient_house_no = customer_address_details.get("house_no")
+		target.recipient_street = customer_address_details.get("address_line1")
+		target.recipient_street_2 = customer_address_details.get("address_line2")
 
 	doc = get_mapped_doc(
 		"Delivery Note",
