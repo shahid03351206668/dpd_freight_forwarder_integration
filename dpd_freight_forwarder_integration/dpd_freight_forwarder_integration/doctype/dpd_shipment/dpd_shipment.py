@@ -266,6 +266,7 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 		target.recipient_postal_code = customer_address_details.get("pincode")
 		target.recipient_street = customer_address_details.get("address_line1")
 		target.recipient_street_2 = customer_address_details.get("address_line2")
+		target.recipient_customer_number = source.customer
 
 	doc = get_mapped_doc(
 		"Delivery Note",
