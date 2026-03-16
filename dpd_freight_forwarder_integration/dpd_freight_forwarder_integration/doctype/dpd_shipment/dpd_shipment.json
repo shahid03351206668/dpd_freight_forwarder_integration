@@ -224,9 +224,8 @@
   },
   {
    "fieldname": "sender_country",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Country",
-   "options": "Country",
    "reqd": 1
   },
   {
@@ -290,9 +289,8 @@
   },
   {
    "fieldname": "recipient_country",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Country",
-   "options": "Country",
    "reqd": 1
   },
   {
@@ -582,7 +580,7 @@
    "link_fieldname": "reference_record"
   }
  ],
- "modified": "2026-03-12 16:44:03.914896",
+ "modified": "2026-03-16 11:32:41.544949",
  "modified_by": "Administrator",
  "module": "DPD Freight Forwarder Integration",
  "name": "DPD Shipment",
