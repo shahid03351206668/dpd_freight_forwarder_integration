@@ -104,25 +104,25 @@ def post_shipment_request(self):
 			if not self.sender_country:
 				frappe.throw("Select Country Code in Sender Country")
 
-			if self.sender_name_1 and self.sender_street and self.sender_country and self.sender_postal_code and self.sender_city:
+			if self.sender_name_1 and self.sender_street and self.sender_country and self.sender_country_code and self.sender_postal_code and self.sender_city:
 				# country_code = frappe.db.get_value("Country", self.sender_country, "code") or False
 				country_code = cstr(self.sender_country).upper()
 				shipment_data["sender"] = {
 					"name1": self.sender_name_1,
 					"street": self.sender_street,
-					"country": country_code,
+					"country": self.sender_country_code,
 					"zipCode": self.sender_postal_code,
 					"city": self.sender_city
 				}
 			if not self.recipient_country:
 				frappe.throw("Select Country Code in Recipient Country")
-			if self.recipient_name_1 and self.recipient_street and self.recipient_country and self.recipient_postal_code and self.recipient_city:
+			if self.recipient_name_1 and self.recipient_street and self.recipient_country and self.recipient_country_code and self.recipient_postal_code and self.recipient_city:
 				# country_code = frappe.db.get_value("Country", self.recipient_country, "code") or False
 				country_code = cstr(country_code).upper()
 				shipment_data["recipient"] = {
 					"name1": self.recipient_name_1,
 					"street": self.recipient_street,
-					"country": country_code,
+					"country": self.recipient_country_code,
 					"zipCode": self.recipient_postal_code,
 					"city": self.recipient_city
 				}
@@ -253,19 +253,21 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 					# 		company_address_details['street'] = company_street
 					# 		company_address_details['house_no'] = company_house_no
 					break
-		frappe.msgprint(cstr(company_address_details))
+		# frappe.msgprint(cstr(company_address_details))
 		target.customer = source.customer
 		target.product = 'PBOX'
 		target.sender_name_1 = source.company
 		target.sender_name_2 = customer_address_details.get("sender_name_2")
 		target.sender_city = company_address_details.get("city")
-		target.sender_country = company_address_details.get("country_code")
+		target.sender_country = company_address_details.get("country")
 		target.sender_postal_code = company_address_details.get("pincode")
 		target.sender_street = company_address_details.get("address_line1")
 		target.sender_street_2 = company_address_details.get("address_line2")
+		target.sender_country_code = company_address_details.get("country_code")
 		target.recipient_name_1 = target.customer_name
 		target.recipient_city = customer_address_details.get("city")
-		target.recipient_country = customer_address_details.get("country_code")
+		target.recipient_country = customer_address_details.get("country")
+		target.recipient_country_code = customer_address_details.get("country_code")
 		target.recipient_postal_code = customer_address_details.get("pincode")
 		target.recipient_street = customer_address_details.get("address_line1")
 		target.recipient_street_2 = customer_address_details.get("address_line2")

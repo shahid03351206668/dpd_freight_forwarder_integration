@@ -33,6 +33,7 @@
   "sender_postal_code",
   "column_break_pwtp",
   "sender_country",
+  "sender_country_code",
   "sender_contact",
   "sender_phone",
   "sender_email",
@@ -47,6 +48,7 @@
   "recipient_postal_code",
   "column_break_vytu",
   "recipient_country",
+  "recipient_country_code",
   "recipient_contact",
   "recipient_phone",
   "recipient_email",
@@ -569,6 +571,18 @@
    "fieldname": "recipient_street_2",
    "fieldtype": "Data",
    "label": "Street 2"
+  },
+  {
+   "fieldname": "sender_country_code",
+   "fieldtype": "Data",
+   "label": "Country Code",
+   "read_only": 1
+  },
+  {
+   "fieldname": "recipient_country_code",
+   "fieldtype": "Data",
+   "label": "Country Code",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
@@ -580,7 +594,7 @@
    "link_fieldname": "reference_record"
   }
  ],
- "modified": "2026-03-16 11:32:41.544949",
+ "modified": "2026-03-16 17:30:08.873891",
  "modified_by": "Administrator",
  "module": "DPD Freight Forwarder Integration",
  "name": "DPD Shipment",
