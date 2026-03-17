@@ -33,6 +33,7 @@
   "automation_settings_section",
   "enable_auto_shipment_creation",
   "auto_create_on_delivery_note_submit",
+  "default_dpd_sender_warehouse",
   "column_break_bz5b",
   "enable_predict_service_by_default",
   "default_notification_channel",
@@ -314,6 +315,12 @@
    "fieldname": "connections_tab",
    "fieldtype": "Tab Break",
    "label": "Connections"
+  },
+  {
+   "fieldname": "default_dpd_sender_warehouse",
+   "fieldtype": "Link",
+   "label": "Default DPD Sender Warehouse",
+   "options": "Warehouse"
   }
  ],
  "grid_page_length": 50,
@@ -325,7 +332,7 @@
    "link_fieldname": "reference_record"
   }
  ],
- "modified": "2026-02-20 15:38:41.388830",
+ "modified": "2026-03-17 17:09:37.645484",
  "modified_by": "Administrator",
  "module": "DPD Freight Forwarder Integration",
  "name": "DPD Settings",

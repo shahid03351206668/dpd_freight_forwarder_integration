@@ -220,7 +220,8 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 			# 	customer_address_details['house_no'] = customer_house_no	
 		if source.customer:
 			customer_address_details['sender_name_2'] = frappe.db.get_value("Customer", source.customer, "custom_customer_additional_designation")
-		if source.company:
+		default_dpd_sender_warehouse = frappe.db.get_value("DPD Settings", "DPD Settings", "default_dpd_sender_warehouse") or None
+		if source.company and default_dpd_sender_warehouse:
 			# "AND p.address_type = 'Plant' AND p.is_shipping_address = 1 AND p.is_your_company_address = 1", 
 			address_conditions = ["AND p.address_type = 'Billing' AND p.is_shipping_address = 1"]
 			base_query = """
@@ -233,7 +234,7 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 				LIMIT 1
 			"""
 			for conditions in address_conditions:
-				result = frappe.db.sql(base_query.format(conditions=conditions), values=(source.set_warehouse,), as_dict=1)
+				result = frappe.db.sql(base_query.format(conditions=conditions), values=(default_dpd_sender_warehouse,), as_dict=1)
 				if result:
 					company_address_details = result[0]
 					if company_address_details.get("country"):
@@ -257,7 +258,6 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 		target.customer = source.customer
 		target.product = 'PBOX'
 		target.sender_name_1 = source.company
-		target.sender_name_2 = customer_address_details.get("sender_name_2")
 		target.sender_city = company_address_details.get("city")
 		target.sender_country = company_address_details.get("country")
 		target.sender_postal_code = company_address_details.get("pincode")
@@ -265,6 +265,7 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 		target.sender_street_2 = company_address_details.get("address_line2")
 		target.sender_country_code = company_address_details.get("country_code")
 		target.recipient_name_1 = target.customer_name
+		target.recipient_name_2 = customer_address_details.get("sender_name_2")
 		target.recipient_city = customer_address_details.get("city")
 		target.recipient_country = customer_address_details.get("country")
 		target.recipient_country_code = customer_address_details.get("country_code")
