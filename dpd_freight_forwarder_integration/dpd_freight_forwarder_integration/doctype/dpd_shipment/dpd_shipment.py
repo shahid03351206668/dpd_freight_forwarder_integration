@@ -124,7 +124,9 @@ def post_shipment_request(self):
 					"street": self.recipient_street,
 					"country": self.recipient_country_code,
 					"zipCode": self.recipient_postal_code,
-					"city": self.recipient_city
+					"city": self.recipient_city,
+					"name2": self.recipient_name_2,
+					"street2": self.recipient_street_2 
 				}
 			order_data["generalShipmentData"] = shipment_data
 			parcels = []
