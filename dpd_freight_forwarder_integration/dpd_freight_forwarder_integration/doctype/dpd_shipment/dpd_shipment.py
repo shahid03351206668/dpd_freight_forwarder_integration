@@ -203,8 +203,14 @@ def post_shipment_request(self):
 def create_shipment_from_delivery_note(source_name, target_doc=None):
 	def set_missing_values(source, target):
 		company_address_details = {}
-		if source.customer_address:
-			customer_address_details = frappe.db.get_value("Address", source.customer_address, ["city", "country", "pincode", "address_line1", "address_line2"], as_dict=1) or {}
+		customer_address_details = {}
+		customer_address = None
+		if source.shipping_address_name:
+			customer_address = source.shipping_address_name
+		elif source.customer_address:
+			customer_address = source.customer_address
+		if customer_address:
+			customer_address_details = frappe.db.get_value("Address", customer_address, ["city", "country", "pincode", "address_line1", "address_line2"], as_dict=1) or {}
 			if customer_address_details.get("country"):
 				country_code = frappe.db.get_value("Country", customer_address_details.get("country"), "code") or None
 				if country_code:
