@@ -113,6 +113,7 @@ def post_shipment_request(self):
 					"country": self.sender_country_code,
 					"zipCode": self.sender_postal_code,
 					"city": self.sender_city
+					
 				}
 			if not self.recipient_country:
 				frappe.throw("Select Country Code in Recipient Country")
@@ -126,14 +127,17 @@ def post_shipment_request(self):
 					"zipCode": self.recipient_postal_code,
 					"city": self.recipient_city,
 					"name2": self.recipient_name_2,
-					"street2": self.recipient_street_2 
+					"street2": self.recipient_street_2 ,
+					"contact": self.recipient_contact
 				}
 			order_data["generalShipmentData"] = shipment_data
 			parcels = []
 			for row in self.parcels:
 				new_row = {
 					"weight": flt(row.get("weight_in_grams")),
-					"customerReferenceNumber1": cstr(row.get("customer_reference_1"))
+					"customerReferenceNumber1": cstr(row.get("customer_reference_1")),
+					"customerReferenceNumber2": cstr(row.get("customer_reference_2")),
+					"content": cstr(row.get("content"))
 				}
 				parcels.append(json.loads(frappe.as_json(new_row))) 
 		
@@ -215,19 +219,37 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 				country_code = frappe.db.get_value("Country", customer_address_details.get("country"), "code") or None
 				if country_code:
 					customer_address_details['country_code'] = cstr(country_code).upper()
-			# if customer_address_details.get("address_line1"):
-			# 	customer_address_line1 = customer_address_details.get("address_line1").split(' ')
-			# 	customer_street = None
-			# 	customer_house_no = None
-			# 	if len(customer_address_line1) == 1:
-			# 		customer_street = customer_address_line1[0]
-			# 	elif len(customer_address_line1) > 1:
-			# 		customer_street = customer_address_line1[0]
-			# 		customer_house_no = customer_address_line1[1]
-			# 	customer_address_details['street'] = customer_street
-			# 	customer_address_details['house_no'] = customer_house_no	
+	
 		if source.customer:
 			customer_address_details['sender_name_2'] = frappe.db.get_value("Customer", source.customer, "custom_customer_additional_designation")
+			customer_contact_details = frappe.db.sql(f"""SELECT p.name FROM `tabContact`p INNER JOIN `tabDynamic Link`c ON p.name = c.parent WHERE c.link_doctype = 'Customer' AND c.link_name = '{source.customer}' ORDER BY p.creation DESC LIMIT 1""", as_dict=1)
+			if customer_contact_details:
+				try:
+					contact_doc = frappe.get_doc("Contact", customer_contact_details[0].get("name"))
+					for row in contact_doc.email_ids:
+						if bool(row.is_primary) and row.email_id:
+							customer_address_details['recipient_email'] = row.email_id
+					for contact_row in contact_doc.phone_nos:
+						if bool(contact_row.is_primary_mobile_no) and contact_row.phone:
+							customer_address_details['recipient_phone'] = contact_row.phone
+				except Exception as e:
+					frappe.log_error(message=f"""Failed To Access Contact Record: {customer_contact_details[0].get('name')}""", title="Customer Contact Record Access Error")
+		
+		if source.company:
+			company_contact_details = frappe.db.sql(f"""SELECT p.name FROM `tabContact`p INNER JOIN `tabDynamic Link`c ON p.name = c.parent WHERE c.link_doctype = 'Company' AND c.link_name = '{source.company}' ORDER BY p.creation DESC LIMIT 1""", as_dict=1)
+			if company_contact_details:
+				try:
+					company_contact_doc = frappe.get_doc("Contact", company_contact_details[0].get("name"))
+					for company_row in company_contact_doc.email_ids:
+						if bool(company_row.is_primary) and company_row.email_id:
+							company_address_details['sender_email'] = company_row.email_id
+					for company_contact_row in company_contact_doc.phone_nos:
+						if bool(company_contact_row.is_primary_mobile_no) and company_contact_row.phone:
+							company_address_details['sender_phone'] = company_contact_row.phone
+				except Exception as e:
+					frappe.log_error(message=f"""Failed To Access Contact Record: {company_contact_details[0].get('name')}""", title="Company Contact Record Access Error")
+			# frappe.msgprint(cstr(company_address_details))			
+
 		default_dpd_sender_warehouse = frappe.db.get_value("DPD Settings", "DPD Settings", "default_dpd_sender_warehouse") or None
 		if source.company and default_dpd_sender_warehouse:
 			# "AND p.address_type = 'Plant' AND p.is_shipping_address = 1 AND p.is_your_company_address = 1", 
@@ -244,24 +266,14 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 			for conditions in address_conditions:
 				result = frappe.db.sql(base_query.format(conditions=conditions), values=(default_dpd_sender_warehouse,), as_dict=1)
 				if result:
-					company_address_details = result[0]
+					company_address_details.update(result[0])
 					if company_address_details.get("country"):
 						country_code = frappe.db.get_value("Country", company_address_details.get("country"), "code") or None
 						if country_code:
 							company_address_details['country_code'] = cstr(country_code).upper()
-					# if company_address_details.get("address_line1"):
-					# 	address_line1 = cstr(company_address_details.get("address_line1")).split(' ')
-					# 	if address_line1:
-					# 		company_street = None
-					# 		company_house_no = None
-					# 		if len(address_line1) == 1:
-					# 			company_street = address_line1[0]
-					# 		elif len(address_line1) > 1:
-					# 			company_street = address_line1[0]
-					# 			company_house_no = address_line1[1]
-					# 		company_address_details['street'] = company_street
-					# 		company_address_details['house_no'] = company_house_no
+					
 					break
+		
 		# frappe.msgprint(cstr(company_address_details))
 		target.customer = source.customer
 		target.product = 'PBOX'
@@ -272,6 +284,8 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 		target.sender_street = company_address_details.get("address_line1")
 		target.sender_street_2 = company_address_details.get("address_line2")
 		target.sender_country_code = company_address_details.get("country_code")
+		target.sender_phone = company_address_details.get("sender_phone")
+		target.sender_email = company_address_details.get("sender_email")
 		target.recipient_name_1 = target.customer_name
 		target.recipient_name_2 = customer_address_details.get("sender_name_2")
 		target.recipient_city = customer_address_details.get("city")
@@ -281,6 +295,8 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
 		target.recipient_street = customer_address_details.get("address_line1")
 		target.recipient_street_2 = customer_address_details.get("address_line2")
 		target.recipient_customer_number = source.customer
+		target.recipient_phone = customer_address_details.get("recipient_phone")
+		target.recipient_email = customer_address_details.get("recipient_email")
 
 	doc = get_mapped_doc(
 		"Delivery Note",

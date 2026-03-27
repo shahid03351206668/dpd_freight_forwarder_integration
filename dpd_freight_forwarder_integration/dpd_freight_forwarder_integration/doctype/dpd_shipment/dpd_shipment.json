@@ -232,12 +232,12 @@
   },
   {
    "fieldname": "sender_contact",
-   "fieldtype": "Phone",
+   "fieldtype": "Data",
    "label": "Contact"
   },
   {
    "fieldname": "sender_phone",
-   "fieldtype": "Phone",
+   "fieldtype": "Data",
    "label": "Phone"
   },
   {
@@ -297,12 +297,12 @@
   },
   {
    "fieldname": "recipient_contact",
-   "fieldtype": "Phone",
+   "fieldtype": "Data",
    "label": "Contact"
   },
   {
    "fieldname": "recipient_phone",
-   "fieldtype": "Phone",
+   "fieldtype": "Data",
    "label": "Phone"
   },
   {
@@ -594,7 +594,7 @@
    "link_fieldname": "reference_record"
   }
  ],
- "modified": "2026-03-16 17:30:08.873891",
+ "modified": "2026-03-27 19:02:34.828270",
  "modified_by": "Administrator",
  "module": "DPD Freight Forwarder Integration",
  "name": "DPD Shipment",

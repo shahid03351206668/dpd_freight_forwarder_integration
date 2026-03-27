@@ -259,8 +259,7 @@
   {
    "fieldname": "shipment_service_endpoint",
    "fieldtype": "Data",
-   "label": "Shipment Service Endpoint",
-   "read_only": 1
+   "label": "Shipment Service Endpoint"
   },
   {
    "collapsible": 1,
@@ -332,7 +331,7 @@
    "link_fieldname": "reference_record"
   }
  ],
- "modified": "2026-03-17 17:09:37.645484",
+ "modified": "2026-03-24 14:49:46.667125",
  "modified_by": "Administrator",
  "module": "DPD Freight Forwarder Integration",
  "name": "DPD Settings",
