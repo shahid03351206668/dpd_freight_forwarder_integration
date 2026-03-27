@@ -133,10 +133,15 @@ def post_shipment_request(self):
 			order_data["generalShipmentData"] = shipment_data
 			parcels = []
 			for row in self.parcels:
+				customer_reference_2 = ""
+				if row.get("customer_reference_2"):
+					customer_reference_2 += f"""{row.get("customer_reference_2")}"""
+				if row.get("content"):
+					customer_reference_2 += f',{row.get("content")}'
 				new_row = {
 					"weight": flt(row.get("weight_in_grams")),
 					"customerReferenceNumber1": cstr(row.get("customer_reference_1")),
-					"customerReferenceNumber2": cstr(row.get("customer_reference_2")),
+					"customerReferenceNumber2": cstr(customer_reference_2),
 					"content": cstr(row.get("content"))
 				}
 				parcels.append(json.loads(frappe.as_json(new_row))) 
