@@ -13,7 +13,7 @@ class DPDSettings(Document):
     
 def check_mandatory(self):
     if not self.delis_id:
-        frappe.throw("DELIS ID is Required to Establish Connection")	
+        frappe.throw("Delis Id is Required to Establish Connection")	
     if not self.password:
         frappe.throw("Password is Required to Establish Connection")	
     if not self.message_language:
