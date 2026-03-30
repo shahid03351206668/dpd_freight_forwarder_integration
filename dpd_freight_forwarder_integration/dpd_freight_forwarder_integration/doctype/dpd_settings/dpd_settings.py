@@ -25,7 +25,7 @@ def make_call(
     if payload:
         payload = json.dumps(payload)
     response = requests.request(method, url, headers=headers, data=payload)
-    if response.status_code == 200:
+    if response.status_code >= 200 and response.status_code < 300:
         return response.json() if json_response else response.text
     else:
         frappe.log_error(
