@@ -173,6 +173,8 @@ def post_shipment_request(self):
                     "country": self.sender_country_code,
                     "zipCode": self.sender_postal_code,
                     "city": self.sender_city,
+                    "phone": self.sender_phone,
+                    "email": self.sender_email
                 }
             if not self.recipient_country:
                 frappe.throw("Select Country Code in Recipient Country")
@@ -195,7 +197,8 @@ def post_shipment_request(self):
                     "name2": self.recipient_name_2,
                     "street2": self.recipient_street_2,
                     "contact": self.recipient_contact,
-                    "email": self.recipient_email
+                    "email": self.recipient_email,
+                    "phone": self.recipient_phone
                 }
             order_data["generalShipmentData"] = shipment_data
             parcels = []
