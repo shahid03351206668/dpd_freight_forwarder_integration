@@ -316,6 +316,11 @@ def post_shipment_request(self):
 @frappe.whitelist()
 def create_shipment_from_delivery_note(source_name, target_doc=None):
     def set_missing_values(source, target):
+        shipment_recipient = None
+        if source.shopify_order_number:
+            shipment_recipient = source.shipping_address_name or ""
+        else:
+            shipment_recipient = target_doc.customer_name
         company_address_details = {}
         customer_address_details = {}
         customer_address = None
@@ -458,7 +463,7 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
         target.sender_country_code = company_address_details.get("country_code")
         target.sender_phone = company_address_details.get("sender_phone")
         target.sender_email = company_address_details.get("sender_email")
-        target.recipient_name_1 = target.customer_name
+        target.recipient_name_1 = shipment_recipient
         target.recipient_name_2 = customer_address_details.get("sender_name_2")
         target.recipient_city = customer_address_details.get("city")
         target.recipient_country = customer_address_details.get("country")
