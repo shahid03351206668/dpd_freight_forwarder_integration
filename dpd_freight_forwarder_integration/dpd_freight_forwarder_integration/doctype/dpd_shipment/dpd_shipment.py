@@ -318,7 +318,7 @@ def create_shipment_from_delivery_note(source_name, target_doc=None):
     def set_missing_values(source, target):
         shipment_recipient = None
         if source.shopify_order_number:
-            shipment_recipient = source.shipping_address_name or ""
+            shipment_recipient = frappe.db.get_value("Address", source.shipping_address_name, "address_title") or ""
         else:
             shipment_recipient = target_doc.customer_name
         company_address_details = {}
